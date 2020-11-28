@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+import os
 
 urlpatterns = [
     path("", include("orders.urls", namespace="orders")),
@@ -24,5 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# below for localhost use, disable when use cloudinary
+if not os.environ.get('CLOUDINARY_URL'):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

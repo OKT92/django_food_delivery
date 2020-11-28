@@ -131,8 +131,19 @@ LOGIN_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
+# below for localhost use, disable when use cloudinary
+if not os.environ.get('CLOUDINARY_URL'):
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+    MEDIA_URL = '/media/'
+else:
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.environ.get('CLOUD_NAME', 'keetackcloud'),
+        'API_KEY': os.environ.get('API_KEY', '795894942645992'),
+        'API_SECRET': os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
+    }
+
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
@@ -145,18 +156,6 @@ DATABASES['default'].update(db_from_env)
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME', 'keetackcloud'),
-    'API_KEY': os.environ.get('API_KEY', '795894942645992'),
-    'API_SECRET': os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
