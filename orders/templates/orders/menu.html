@@ -1,0 +1,37 @@
+{% extends "orders/base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="title-image mb-5">
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'orders:index' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Menu</li>
+            </ol>
+        </nav>
+    </div>
+    <h1 class="text-center">Menu</h1>
+</div>
+<section class="container">
+    <div class="row">
+        {% for item in menu %}
+        <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
+            <a class="w3-hover-text-black" href="{% url 'orders:product' item.id %}">
+            <div class="card w3-hover-shadow">
+                <div class="product-image-div">
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}-image">
+                </div>
+                <div class="px-3">
+                    <h6 class="menu-product-name">{{ item.name }}</h6>
+                    <p class="w3-text-orange font-weight-bold">RM{{ item.price }}</p>
+                </div>
+            </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

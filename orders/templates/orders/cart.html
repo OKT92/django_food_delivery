@@ -1,0 +1,85 @@
+{% extends "orders/base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="title-image mb-5">
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'orders:index' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Cart</li>
+            </ol>
+        </nav>
+    </div>
+    <h1 class="text-center">My Cart</h1>
+</div>
+
+<section class="container">
+	<div class="row">
+		<div class="col-lg-8 min-height-200" id="cart-items">
+			{% if cart %}
+				{% for item in cart %}
+					<div class="row no-gutters py-4 border-bottom">
+						<div class="col-5 col-md-3 pl-2 pl-sm-3"><a href="{% url 'orders:product' item.item.product.id %}"><img src="{{ item.item.product.image.url }}" class="img-fluid"></a></div>
+						<div class="col-7 col-md-9 px-2 px-sm-3">
+							<div class="row no-gutters">
+								<div class="col-md-6">
+									<h6 class="mt-0">{{ item.item.product.name }}</h6>
+									<p>{{ item.selection }}</p>
+								</div>
+								<div class="col-md-2">
+									<div class="mb-3">RM{{ item.price }}</div>
+								</div>
+								<div class="col-md-4">
+									<div class="d-inline-block mb-3">
+										<div class="d-flex align-items-stretch" style="min-width: 103.6px;">
+											<button class="d-inline-block mx-0 quantity-left-minus w3-light-grey border no-outline" type="button"><i class="fa fa-minus"></i></button>
+											<input type="text" class="text-center d-inline-block px-2 mx-0 border no-outline input-number" name="quantity" value="{{ item.item.quantity }}" data-id="{{item.item.id}}" style="width: 2.9rem;">
+											<button class="d-inline-block mx-0 quantity-right-plus w3-light-grey border no-outline" type="button"><i class="fa fa-plus"></i></button>
+										</div>
+									</div>
+									<i class="material-icons float-right w3-text-grey w3-hover-text-red remove pointer" data-id="{{ item.item.id }}" id="remove-cart-{{ item.item.id }}" data-toggle="modal" data-target="#removeModal" style="vertical-align: top;">remove_shopping_cart</i>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<div class="my-4 text-right">
+					<button type="button" class="text-center w3-button w3-text-light-green w3-border w3-border-light-green w3-hover-light-green w3-hover-text-white no-outline update-cart">UPDATE CART</button>
+				</div>
+			{% else %}
+				<div class="text-center my-5">Your cart has no item.</div>
+			{% endif %}
+		</div>
+		<div class="col-lg-4">
+			<div class="shadow card px-3 py-3">
+				<div class="border-bottom">
+					<h4 class="w3-text-orange">Location</h4>
+					<p>{{ user.profile.company_name }}</p>
+				</div>
+				<h4 class="w3-text-orange">Order Summary</h4>
+				<p>Subtotal <span class="float-right">RM<span id="subtotal">{% if subtotal == 0 %}0.00{% else %}{{subtotal}}{% endif %}</span></span></p>
+				<p>Delivery fee <span class="float-right">RM<span>0.00</span></span></p>
+				<p>Total <span class="float-right">RM<span id="total">{% if subtotal == 0 %}0.00{% else %}{{subtotal}}{% endif %}</span></span></p>
+				<input type="button" class="w3-button w3-light-green no-outline place-order" value="PLACE ORDER">
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+	<div class="modal-content">
+		<h5 class="px-4 my-3">Remove from cart?</h5>
+		<p class="px-4 mb-3">Item will be removed from cart</p>
+		<div class="modal-footer">
+		<a class="w3-button w3-grey" data-dismiss="modal">CANCEL</a>
+		<a class="w3-button w3-red" id="confirm-remove" data-dismiss="modal">REMOVE</a>
+		</div>
+	</div>
+	</div>
+</div>
+{% endblock %}

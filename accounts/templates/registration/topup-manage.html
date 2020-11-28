@@ -1,0 +1,50 @@
+{% extends "orders/base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="title-image mb-5">
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'orders:index' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Top Up Request</li>
+            </ol>
+        </nav>
+    </div>
+    <h1 class="text-center">Top Up Request</h1>
+</div>
+
+<section class="container my-5" id="section-content">
+	{% if topup_request %}
+		<div>
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col" class="text-center">Request ID</th>
+						<th scope="col" class="text-center">Amount</th>
+						<th scope="col" class="text-center">Customer Name</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody id="table-body">
+					{% for x in topup_request %}
+					<tr>
+						<td class="text-center">{{ x.id }}</td>
+						<td class="text-center">RM{{ x.value }}</td>
+						<td class="text-center">{{ x.user.first_name }}</td>
+						<td class="text-center">
+							<button type="button" class="w3-button w3-light-blue w3-round receive" data-id="{{ x.id }}">received</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<div class="text-center my-5">No active top up request currently.</div>
+	{% endif %}
+</section>
+
+{% endblock %}

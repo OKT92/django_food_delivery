@@ -1,0 +1,101 @@
+{% extends "orders/base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="title-image mb-5">
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'orders:index' %}">Home</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'orders:menu' %}">Menu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
+            </ol>
+        </nav>
+    </div>
+    <h1 class="text-center">{{ item.name }}</h1>
+</div>
+<section class="container">
+	<div class="row">
+		<div class="col-md-6 mb-5">
+			<img src="{{ item.image.url }}" class="img-fluid" alt="Product Image">
+		</div>
+		<div class="col-md-6 product-details pl-md-5 ftco-animate">
+			<h3>{{ item.name }}</h3>
+			<h4 class="w3-text-orange">RM{{ item.price }}</h4>
+			<p>{{ item.description }}</p>
+			<form class="row mt-4" id="product-form">
+				{% if option %}
+				{% for queryset in option %}
+				<div class="col-md-6">
+					<div class="form-group d-flex">
+						<div class="">
+							<select name="option" class="form-control shadow-none">
+								{% for item in queryset %}
+								<option value="{{ item.id }}">{{ item.selection }} {% if item.additional_price != 0 %}(+RM{{ item.additional_price }}){% endif %}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="w-100"></div>
+				{% endfor %}
+				{% endif %}
+
+				{% if addon %}
+				<div class="mx-3 mb-2">
+					{% for x in addon %}
+					<label><input type="checkbox" class="checkbox-hide" name="addon" value="{{x.id}}" hidden><span class="form-control">+ {{x.addon_item}} (RM{{x.additional_price}})</span></label>
+					{% endfor %}
+				</div>
+				<div class="w-100"></div>
+				{% endif %}
+
+				<!-- Quantity -->
+				<div class="input-group mx-3 mb-3" id="test" style="width: 8.2rem;">
+					<div class="input-group-prepend quantity-left-minus">
+						<button class="btn shadow-none" type="button" style="border-color: #ced4da;"><i class="fa fa-minus"></i></button>
+					</div>
+					<input type="text" class="form-control text-center shadow-none input-number" name="quantity" value="1">
+					<div class="input-group-append quantity-right-plus">
+						<button class="btn shadow-none" type="button" style="border-color: #ced4da;"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+			</form>
+			<input type="button" onclick="addItem({{ item.id }})" class="w3-button w3-light-green py-3 px-5 no-outline" value="Add to Cart">
+		</div>
+	</div>
+</section>
+	
+  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h6 class="modal-title w3-text-green" id="exampleModalLabel">Item has been added to your cart</h6>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-4"><img src="{{ item.image.url }}" alt="Product Image" class="img-thumbnail"></div>
+				<div class="col-8">
+					<h5>{{ item.name }}</h5>
+					<p id="selection"></p>
+					<p class="w3-text-orange"><strong id="priceModal"></strong></p>
+					<p>Quantity: <strong id="quantityModal"></strong></p>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+		<a href="{% url 'orders:menu' %}" class="w3-button w3-grey">LOOK AROUND</a>
+		<a href="{% url 'orders:cart' %}" class="w3-button w3-light-green">GO TO CART</a>
+		</div>
+	</div>
+	</div>
+</div>
+
+{% endblock %}

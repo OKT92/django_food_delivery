@@ -1,0 +1,112 @@
+{% extends "orders/base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="title-image mb-5">
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'orders:index' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Wallet</li>
+            </ol>
+        </nav>
+    </div>
+    <h1 class="text-center">My Wallet</h1>
+</div>
+
+<section class="container my-5">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="shado card px-3 py-3">
+				<h4>Balance: <span>RM
+					<span>
+						{% if balance != 0 %}
+						{{balance}}
+						{% else %}
+						0.00
+						{% endif %}
+					</span>
+				</h4>
+				<form id="topup-form" method="POST" action="{% url 'accounts:wallet' %}">
+					{% csrf_token %}
+					<select class="form-control" name="value">
+						<option value="10">RM10.00</option>
+						<option value="20">RM20.00</option>
+						<option value="50">RM50.00</option>
+						<option value="100">RM100.00</option>
+					</select>
+					<button type="submit" class="w3-button w3-light-green py-2 px-4 mt-3 no-outline">Top up</button>
+				</form>
+			</div>
+			<div class="px-3 my-2">** please bank transfer to the below bank account and send the bank transaction receipt along with your top-up request ID to 012-3456789 via Whatsapp.
+				<br>
+				<br>
+				Food Delivery Enterprise
+				<br>
+				Maybank
+				<br>
+				151246810
+			</div>
+			<div class="my-5" id="topup-request-list">
+				{% if topup %}
+					{% for x in topup %}
+					<div class="d-flex align-items-center border w3-round-xlarge px-4 py-2 mb-1">
+						<div class="flex-grow-1">
+							<div>Request ID: #{{ x.id }}</div>
+							<div>Amount: RM{{ x.value }}</div>
+						</div>
+						<div>
+							<i class='fas fa-times w3-text-grey w3-hover-text-red pointer cancel-topup' data-id="{{ x.id }}" id="cancel-topup-{{ x.id }}" data-toggle="modal" data-target="#removeModal"></i>
+						</div>
+					</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="col-lg-8">
+			{% if wallet %}
+				<div>
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Date</th>
+								<th scope="col" class="text-center">Description</th>
+								<th scope="col" class="text-right">Amount</th>
+								<th scope="col" class="text-right">Balance</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for x in wallet %}
+							<tr>
+								<td>{{ x.date }}</td>
+								<td class="text-center">{{ x.description }}</td>
+								<td class="text-right">{{ x.value }}</td>
+								<td class="text-right">{{ x.balance }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% else %}
+				<div class="text-center my-5">Your account has no transaction yet.</div>
+			{% endif %}
+		</div>
+
+	</div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+	<div class="modal-content">
+		<h5 class="px-4 my-5 mx-4">Cancel top up request?</h5>
+		<div class="modal-footer">
+		<a class="w3-button w3-grey px-4 py-2" data-dismiss="modal">NO</a>
+		<a class="w3-button w3-red px-4 py-2" id="confirm-remove" data-dismiss="modal">YES</a>
+		</div>
+	</div>
+	</div>
+</div>
+{% endblock %}

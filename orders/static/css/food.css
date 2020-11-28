@@ -1,0 +1,198 @@
+a:hover {
+    text-decoration: none!important;
+}
+
+.prompt-box {
+    position: fixed;
+    z-index: 5;
+    text-align: center;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.move-placeholder {
+    position:relative;
+    display:block;
+}
+  
+.move-placeholder > span {
+    padding:5px;
+    pointer-events: none;
+    position:absolute;
+    background-color: white;
+    left:10px;
+    top:5px;
+    transition: 0.2s;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    opacity:0.5;
+}
+
+.move-placeholder > input {
+    padding:10px 15px;
+    width: 100%;
+    min-width: 200px;
+    border: 1px solid lightgrey;
+}
+
+.move-placeholder > input:focus + span, .move-placeholder > input:not(:placeholder-shown) + span {
+    opacity:1;
+    transform: scale(0.75) translateY(-90%);
+    transform-origin: left;
+}
+
+/* For IE Browsers*/
+.move-placeholder > input:focus + span, .move-placeholder > input:not(:-ms-input-placeholder) + span {
+    opacity:1;
+    transform: scale(0.75) translateY(-90%);
+    transform-origin: left;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.move-placeholder > input:-webkit-autofill,
+.move-placeholder > input:-webkit-autofill:hover, 
+.move-placeholder > input:-webkit-autofill:focus, 
+.move-placeholder > input:-webkit-autofill:active {
+    border: 1px solid lightgrey;
+    box-shadow: 0 0 0px 1000px white inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.accordion .card {
+    overflow: hidden;
+}
+  
+.accordion .card-header {
+    margin-bottom: -1px;
+}
+
+body {
+  font-family: "Blinker";
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Bree Serif";
+}
+
+.title-image {
+    padding: 60px 30px;
+    width: 100%;
+    color: white;
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("/static/images/background.jpg");
+    background-position: center;
+}
+
+.footer-image {
+    width: 100%;
+    color: white;
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("/static/images/footer.jpg");
+    background-position: center;
+}
+
+.breadcrumb {
+    background-color: transparent !important;
+}
+
+.breadcrumb a:hover {
+    color: grey;
+}
+
+.carousel .carousel-item {
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 576px) {
+    .carousel .carousel-item {
+        padding-top: 100%;
+    }
+}
+
+@media (min-width: 576px) {
+    .carousel .carousel-item {
+        padding-top: 66.66%;
+    }
+}
+
+@media (min-width: 768px) {
+    .carousel .carousel-item {
+        padding-top: 66.66%;
+    }
+}
+
+@media (min-width: 992px) {
+    .carousel .carousel-item {
+        padding-top: 50%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .carousel .carousel-item {
+        padding-top: 40%;
+    }
+}
+
+.carousel-item img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+section {
+    min-height: 600px;
+    padding-bottom: 150px;
+}
+
+.min-height-200 {
+    min-height: 200px;
+}
+
+.company-image-div {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.product-image-div {
+    width: 100%;
+    padding-top: 66.66%;
+    position: relative;
+}
+
+.product-image-div > img {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.menu-product-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.update-cart {
+    width: 121px;
+}
+
+.checkbox-hide:checked + span {
+    border: 2px solid #007bff;
+	padding: .3125rem .6875rem;
+}
+
+.no-outline:focus {
+	outline: none;
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zxx">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" type="image/png" href="/static/images/favicon.png/">
+
+        <!-- Google Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Font Awesome 4 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Font Awesome 5 -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <!-- W3.CSS -->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <!-- Google fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Bungee' rel='stylesheet'>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/food.css' %}">
+
+        <title>Food Delivery{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        {% csrf_token %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a class="navbar-brand px-4" href="{% url 'orders:index' %}" style="font-family: 'Bungee'">Food Delivery</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active border-left px-4">
+                        <a class="nav-link" href="{% url 'orders:menu' %}"><i class='fas fa-utensils w3-text-orange mr-1'></i> MENU</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown active border-left px-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user w3-text-orange mr-1"></i> <span id="nav-first-name">{{ user.first_name }}</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'orders:orders' %}">My orders</a>
+							<a class="dropdown-item" href="{% url 'accounts:wallet' %}">My wallet</a>
+                            <a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a>
+                            {% if user.is_superuser or user.is_staff %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts:topup-manage' %}">Manage Top Up</a>
+                            <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
+                        </div>
+                    </li>
+                    <li class="nav-item active border-left px-4">
+                        <a class="nav-link" href="{% url 'orders:cart' %}"><i class="material-icons w3-text-orange">shopping_basket</i><span id="itemNum">{{ quantity__sum }}</span></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item active border-left px-4">
+                        <a class="nav-link pointer" onclick="showLoginModal()"><i class="fa fa-user w3-text-orange mr-1"></i> LOGIN</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {% block content %}
+        {% endblock %}
+        <!-- Footer -->
+        <footer class="footer-image mt-5 py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md">
+                        <div class="mb-4">
+                            <h2>Food Delivery</h2>
+                            <p>We are a business to provide food delivery service with zero delivery fee for multinational firms within the Bayan Lepas Free Industrial Zone. We believe food is a pleasure and food ordering should be a fast and fun experience.</p>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="mb-4">
+                            <h2>Help Center</h2>
+                            <div class="d-flex">
+                                <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
+                                    <li><a href="#" class="py-2 d-block w3-hover-text-grey">Shipping Information</a></li>
+                                    <li><a href="#" class="py-2 d-block w3-hover-text-grey">Returns &amp; Exchange</a></li>
+                                    <li><a href="#" class="py-2 d-block w3-hover-text-grey">Terms &amp; Conditions</a></li>
+                                    <li><a href="#" class="py-2 d-block w3-hover-text-grey">Privacy Policy</a></li>
+                                </ul>
+                                <ul class="list-unstyled">
+                                    <li><a href="#" class="py-2 d-block w3-hover-text-grey">FAQs</a></li>
+                                    <li><a href="#" class="py-2 d-block w3-hover-text-grey">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="mb-4">
+                            <h2>Contact Us</h2>
+                            <div class="mb-3">
+                                <p><i class='fas fa-location-arrow mr-3'></i>777, Persiaran Mahsuri, Bandar Sunway Tunas, 11900 Bayan Lepas, Pulau Pinang</p>
+                                <p><i class='fas fa-phone-alt mr-3'></i>+60 12-345 6789</p>
+                                <p><i class='fas fa-envelope mr-3'></i>keetack321@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="w3-black w3-text-white text-center py-3">
+            &#169; 2020 | Created with <i class="fa fa-heart w3-text-pink mx-1"></i> by Ooi Kee Tack
+        </div>
+
+        {% if not user.is_authenticated %}
+        <!-- Login & Sign Up Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content py-3 px-5" id="login-modal-content">
+                    <h5 class="modal-title my-0 pb-3 border-bottom text-center" id="modalLabel"></h5>
+                    <div id="login-error" class="mt-4 p-3 w3-leftbar w3-border-red w3-pale-red" style="display: none;"></div>
+                    <form id="loginForm">
+                        <label class="move-placeholder mt-4">
+                            <input type="email" name="email" autocomplete="email" placeholder=" " required>
+                            <span>Email</span>
+                        </label>
+                        <label class="move-placeholder mt-4">
+                            <input type="password" name="password" autocomplete="current-password" placeholder=" " required>
+                            <span>Password</span>
+                        </label>
+                        <button type="button" class="w3-button w3-light-green w3-block my-4 py-3" onclick="login()">LOGIN</button>
+                        <p>Don't have an account? <a class="w3-text-orange pointer" onclick="showRegisterForm()">Sign up here</a></p>
+                    </form>
+                    <form id="registerForm">
+                        <label class="move-placeholder mt-4">
+                            <input type="text" name="name" autocomplete="off" placeholder=" " required>
+                            <span>Name</span>
+                        </label>
+                        <label class="move-placeholder mt-4">
+                            <input type="email" name="email" autocomplete="off" placeholder=" " required>
+                            <span>Email</span>
+                        </label>
+                        <label class="move-placeholder mt-4">
+                            <input type="tel" name="mobile" minlength="11" maxlength="13" autocomplete="off" placeholder=" " required>
+                            <span>Mobile Number</span>
+                        </label>
+                        <label class="move-placeholder mt-4">
+                            <input type="text" name="company_name" autocomplete="off" placeholder=" " required>
+                            <span>Company Name</span>
+                        </label>
+                        <label class="move-placeholder mt-4">
+                            <input type="password" name="password" autocomplete="off" placeholder=" " required>
+                            <span>Password</span>
+                        </label>
+                        <button type="button" class="w3-button w3-light-green w3-block my-4 py-3" onclick="register()">REGISTER</button>
+                        <p>You have an account? <a class="w3-text-orange pointer" onclick="showLoginForm()">Login</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="{% static 'js/food.js' %}"></script>
+    </body>
+</html>

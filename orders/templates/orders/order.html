@@ -1,0 +1,89 @@
+{% extends "orders/base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="title-image mb-5">
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'orders:index' %}">Home</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'orders:orders' %}">My Orders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Order #{{order.id}}</li>
+            </ol>
+        </nav>
+    </div>
+    <h1 class="text-center">Order #{{order.id}}</h1>
+</div>
+
+<section class="container">
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="card-body">
+				{% for item in order.order_item_set.all %}
+				<div class="row no-gutters py-3">
+					<div class="col-5 col-md-3 pl-2 pl-sm-3"><a href="{% url 'orders:product' item.product.id %}"><img src="{{ item.product.image.url }}" class="img-fluid"></a></div>
+					<div class="col-7 col-md-9 px-2 px-sm-3">
+						<div class="row">
+							<div class="col-md-6 text-center">
+								<div>{{item.product_name}}</div>
+								<p>{{item.selection}}</p>
+							</div>
+							<div class="col-md-3 text-center">RM{{item.price}}</div>
+							<div class="col-md-3 text-center">Qty: {{item.quantity}}</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				<h3 class="text-right border-top pt-3 mt-2">Total: RM{{order.total}}</h3>                    
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="shadow card px-3 py-3">
+				<div class="border-bottom">
+					<h4 class="w3-text-orange">Location</h4>
+					<p>{{ user.profile.company_name }}</p>
+				</div>
+				{% if order.status == "pending" %}
+				<div>
+					<h4 class="w3-text-orange">Wallet Balance</h4>
+                	<p {% if order.total > wallet_balance %}class="w3-text-red font-weight-bold"{% endif %}>RM{{ wallet_balance }}</p>
+				</div>
+				{% endif %}
+				<h4 class="w3-text-orange">Order Summary</h4>
+				<p>Subtotal <span class="float-right">RM<span id="subtotal">{{order.total}}</span></span></p>
+				<p>Delivery fee <span class="float-right">RM0.00</span></p>
+				<p>Total <span class="float-right">RM<span id="total">{{order.total}}</span></span></p>
+				{% if order.status == "pending" %}
+					{% if order.total > wallet_balance %}
+					<a href="{% url 'accounts:wallet' %}" class="w3-button w3-light-green text-center">GO TO TOP UP</a>
+					{% else %}
+					<input type="button" class="w3-button w3-light-green" data-toggle="modal" data-target="#paymentModal" value="PAY">
+					{% endif %}
+				{% elif order.status == "paid" %}
+					<div class="px-3 py-2 text-center w3-khaki">IN PROGRESS</div>
+				{% elif order.status == "completed" %}
+				<div class="px-3 py-2 text-center w3-pink">DELIVERED</div>
+				{% else %}
+					<div class="px-3 py-2 text-center w3-grey">CANCELED</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+	<div class="modal-content">
+		<h5 class="my-5 mx-4">Deduct RM{{ order.total }} from wallet?</h5>
+		<div class="modal-footer">
+		<a class="w3-button w3-grey" data-dismiss="modal">CANCEL</a>
+		<a class="w3-button w3-light-green" onclick="pay({{ order.id }})">CONFIRM</a>
+		</div>
+	</div>
+	</div>
+</div>
+
+{% endblock %}
