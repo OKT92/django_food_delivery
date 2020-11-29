@@ -148,3 +148,13 @@ STATIC_URL = '/static/'
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+import cloudinary
+
+#add config 
+cloudinary.config(
+    cloud_name = os.environ.get('CLOUD_NAME', 'keetackcloud'),
+    api_key = os.environ.get('API_KEY', '795894942645992'),
+    api_secret = os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
+    secure = True
+)
+
