@@ -20,14 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '#6cummp88o_a)ss9=3e@^#(g4s06y7#f9yzan1!904=0p)eut#'
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '#6cummp88o_a)ss9=3e@^#(g4s06y7#f9yzan1!904=0p)eut#')
+SECRET_KEY = '#6cummp88o_a)ss9=3e@^#(g4s06y7#f9yzan1!904=0p)eut#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = True
 
-ALLOWED_HOSTS = ['penang-food-delivery.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -35,8 +33,6 @@ ALLOWED_HOSTS = ['penang-food-delivery.herokuapp.com','127.0.0.1']
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'orders.apps.OrdersConfig',
-    'cloudinary_storage',
-    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,21 +127,9 @@ LOGIN_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/"
 
-# below for localhost use, disable when use cloudinary
-if not os.environ.get('CLOUDINARY_URL'):
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-    MEDIA_URL = '/media/'
-else:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('CLOUD_NAME', 'keetackcloud'),
-        'API_KEY': os.environ.get('API_KEY', '795894942645992'),
-        'API_SECRET': os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
-    }
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
 
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
-# Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -154,7 +138,10 @@ DATABASES['default'].update(db_from_env)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'  #. os.path.join(BASE_DIR, 'staticfiles')
+
+# The URL to use when referring to static files (where they will be served from)
+STATIC_URL = '/static/'
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
