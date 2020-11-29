@@ -38,7 +38,7 @@
     <div class="row">
         {% for x in company %}
         <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
-            <div class="company-image-div" style="background-image: linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.5)), url('{{ x.cloud_image.url }}');">
+            <div class="company-image-div" style="background-image: linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.5)), url('{{ x.image.url }}');">
                 <h3 style="position: absolute; bottom: 0; padding: 0 8px; color: white;">{{x.name}}</h3>
             </div>
         </div>

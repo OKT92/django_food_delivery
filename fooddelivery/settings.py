@@ -128,8 +128,9 @@ LOGIN_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
+# MEDIA ROOT and URL used for local server only
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# MEDIA_URL = '/media/'
 
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
@@ -148,13 +149,12 @@ STATIC_URL = '/static/'
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-import cloudinary
-
-#add config 
-cloudinary.config(
-    cloud_name = os.environ.get('CLOUD_NAME', 'keetackcloud'),
-    api_key = os.environ.get('API_KEY', '795894942645992'),
-    api_secret = os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
-    secure = True
-)
+#add config (remove below, use CLOUDINARY_URL in environment instead)
+# import cloudinary
+# cloudinary.config(
+#     cloud_name = os.environ.get('CLOUD_NAME', 'keetackcloud'),
+#     api_key = os.environ.get('API_KEY', '795894942645992'),
+#     api_secret = os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
+#     secure = True
+# )
 
