@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['penang-food-delivery.herokuapp.com','127.0.0.1']
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'orders.apps.OrdersConfig',
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,3 +148,11 @@ STATIC_URL = '/static/'
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME', 'keetackcloud'),
+    'API_KEY': os.environ.get('API_KEY', '795894942645992'),
+    'API_SECRET': os.environ.get('API_SECRET', 'okWZcYDP3oEbvqoTPYA9CvYB5Jw'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
