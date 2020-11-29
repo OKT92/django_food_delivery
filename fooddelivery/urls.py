@@ -26,6 +26,5 @@ urlpatterns = [
 ]
 
 # below for localhost use, disable when use cloudinary
-if not os.environ.get('CLOUDINARY_URL'):
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
