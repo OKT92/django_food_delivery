@@ -9,7 +9,7 @@ class Company(models.Model):
     name = models.CharField(max_length=64)
     address = models.CharField(max_length=256, blank=True)
     # image = models.ImageField(upload_to='company-photos', null=True)
-    image = CloudinaryField('image')
+    image = CloudinaryField('image', null=True)
 
     def __str__(self):
         return self.name

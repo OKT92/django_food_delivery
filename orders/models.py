@@ -11,7 +11,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2)
     description = models.TextField(blank=True)
     # image = models.ImageField(upload_to='product-photos')
-    image = CloudinaryField('image')
+    image = CloudinaryField('image', null=True)
     published = models.BooleanField(default=True)
 
     def __str__(self):
