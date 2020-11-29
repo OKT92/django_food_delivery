@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['penang-food-delivery.herokuapp.com','127.0.0.1']
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'orders.apps.OrdersConfig',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
